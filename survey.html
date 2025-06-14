@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Century 21 - Encuesta de Satisfacción</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0; 
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Oakes Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #fffef9;
+        }
+        
+        h1, button {
+            font-family: 'Typold', sans-serif;
+        }
+        
+        h2, .subtitle {
+            font-family: 'Barlow Semi Condensed', sans-serif;
+        }
+        
+        p, label, span {
+            font-family: 'Oakes Grotesk', sans-serif;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Page 1 - Welcome */
+        #page1 {
+            background-color: #BCAF8A;
+            position: relative;
+            padding-bottom: 120px; /* Space for footer */
+        }
+
+        #page1 .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 40px 50px;
+            text-align: right;
+            min-height: calc(100vh - 120px); /* Account for footer height */
+        }
+
+        #page1 .subtitle {
+            color: #7c6f56;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        #page1 h1 {
+            color: #4A4A4A;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        #page1 .description {
+            color: #4A4A4A;
+            font-size: 18px;
+            font-weight: 100;
+            line-height: 1.6;
+            margin-bottom: 60px;
+            max-width: 300px;
+        }
+
+        #page1 .btn-start {
+            background-color: rgba(74, 74, 74, 0.2);
+            color: #4A4A4A;
+            border: none;
+            max-height: 80px;
+            min-height: 80px;
+            padding: 18px 80px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        #page1 .btn-start:hover {
+            background-color: rgba(74, 74, 74, 0.3);
+            transform: translateY(-2px);
+        }
+
+        #page1 .protected {
+            color: #4a4a4a61;
+            font-size: 14px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        #page1 .protected::before {
+            content: '🛡';
+            font-size: 16px;
+        }
+
+        #page1 .boton {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .footer {
+            background-color: #2C2C2C;
+            color: #B8A965;
+            padding: 40px;
+            margin: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        /* Pages 2-4 - Form pages */
+        .form-page {
+            background-color: #fffef9;
+            flex: 1;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: 120px; /* Space for fixed footer */
+        }
+        
+        .form-page.active {
+            display: flex;
+        }
+
+        .form-container {
+            margin-top: 80px;
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .form-page h2 {
+            color: #7c6f56;
+            font-weight: 300;
+            text-transform: uppercase;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: right;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .page-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-family: 'Barlow Semi Condensed', sans-serif;
+            color: #7c6f56;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #444444a3;
+            font-size: 20px;
+            font-weight: 200;
+            margin-top: 26px;
+            margin-bottom: 26px;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #BCAF8A;
+            border-radius: 2px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-style: italic;
+            letter-spacing: 0.5px;
+            color: #4d4a3f45;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #504519;
+            color: #4d4a3f;
+        }
+
+        input[disabled] {
+            background-color: rgba(182, 169, 135, 0.384);
+            cursor: not-allowed;
+            color: rgba(100, 88, 56, 0.351);
+        }
+
+        .rating-section {
+            margin-bottom: 30px;
+        }
+
+        .rating-section h3 {
+            display: block;
+            color: #444444;
+            font-size: 1.3rem;
+            font-weight: 200;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .rating-section p {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .rating-item {
+            margin-top: 35px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .rating-label {
+            display: block;
+            align-items: center;
+            text-align: center;
+            color: rgb(40 40 40 / 33%);
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .rating-scale::before {
+            content: "Deficiente";
+        }
+        
+        .rating-scale::after {
+            content: "Satisfecho";
+        }
+        
+        .rating-scale-line {
+            flex: 1;
+            height: 1px;
+            background-color: #ddd;
+            margin: 0 10px;
+        }
+
+        .rating-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .rating-buttons input[type="radio"] {
+            display: none;
+        }
+        .rating-buttons-word input[type="radio"] {
+            display: none;
+        }
+
+        .rating-buttons label {
+            font-size: 0.9rem;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border: 2px solid #BCAF8A;
+            border-radius: 5%;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0;
+            
+        }
+
+        .rating-buttons input[type="radio"]:checked + label {
+            background-color: #BCAF8A;
+            color: white;
+            border-color: #B8A965;
+        }
+
+        .rating-buttons-word input[type="radio"]:checked + label {
+            background-color: #BCAF8A;
+            color: white;
+            border-color: #B8A965;
+        }
+        
+        .rating-buttons-word {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .rating-buttons-word label {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #BCAF8A;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0 0 10px 0;
+            position: relative;
+        }
+        
+        .rating-buttons-word label::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #BCAF8A;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .rating-buttons-word input[type="radio"]:checked + label::after {
+            border-width: 6px;
+            background-color: #BCAF8A;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: -10px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            margin-bottom: 0;
+            padding: 12px 15px;
+            border: 2px solid #BCAF8A;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+        
+        .radio-group label::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #BCAF8A;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .radio-group input[type="radio"]:checked + label {
+            background-color: #BCAF8A;
+            color: white;
+        }
+        
+        .radio-group input[type="radio"]:checked + label::before {
+            background-color: white;
+            border-color: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        textarea::placeholder {
+            opacity: 0.5;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            padding: 0 40px 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 20px;
+            min-height: 70px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-secondary {
+            background-color: #fffef9;
+            color: #444444;
+            border: 2px solid #BCAF8A;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-primary {
+            background-color: #9f9474;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #9A8B50;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Page 5 - Thank you */
+        #page5 {
+            background-color: #BCAF8A;
+            position: relative;
+        }
+
+        #page5.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #page5 .subtitle5 {
+            color: #7c6f56;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            font-family: 'Barlow Semi Condensed', sans-serif;
+        }
+        
+        #page5 .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            text-align: right;
+            padding: 0px 50px;
+        }
+        
+        #page5 .subtitle {
+            color: rgba(44, 44, 44, 0.5);
+            font-size: 24px;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        #page5 h1 {
+            color: #4A4A4A;
+            text-transform: uppercase;
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        #page5 .description {
+            color: #4A4A4A;
+            font-size: 18px;
+            line-height: 1.6;
+            font-weight: 100;
+            max-width: 400px;
+            margin-bottom: 120px;
+            width: 90%;
+        }
+
+        #page5 .btn-restart {
+            background-color: rgba(74, 74, 74, 0.2);
+            color: #4A4A4A;
+            border: none;
+            max-height: 110px;
+            padding: 20px 60px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        #page5 .btn-restart:hover {
+            background-color: rgba(74, 74, 74, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        #page5 .protected {
+            color: rgba(44, 44, 44, 0.5);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            flex-direction: center;
+            justify-content: center;
+        }
+        
+        #page5 .protected::before {
+            content: '🛡';
+            font-size: 16px;
+        }
+
+        .form-footer {
+            background-color: #2C2C2C;
+            color: #B8A965;
+            padding: 40px;
+            margin: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .form-footer img {
+            height: 40px;
+            width: auto;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .form-container {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .button-container {
+                max-width: 600px;
+                margin: 30px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Welcome -->
+    <div class="page active" id="page1">
+        <div class="content">
+            <p class="subtitle">ENCUESTA</p>
+            <h1>QUEREMOS<br>SABER<br>TU<br>OPINIÓN</h1>
+            <p class="description">Estimado usuario, por favor, dedique unos minutos de su tiempo a rellenar la siguiente encuesta.</p>
+            <div class="boton">
+                <button class="btn-start" onclick="nextPage()">EMPEZAR</button>
+                <p class="protected">Protegido</p>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="assets/images/Century21logo.svg" alt="Century 21">
+        </div>
+    </div>
+
+    <!-- Page 2: Personal Information -->
+    <div class="page form-page" id="page2">
+        <div class="form-container">
+            <h2><span class="page-number">1/3</span>Información <br> Personal</h2>
+            <form id="personalForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" value="Juan" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" value="Pérez" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico *</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error" id="emailError">Por favor ingrese un correo válido</span>
+                </div>
+                <div class="form-group">
+                    <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+                    <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                    <span class="error" id="fechaError">Por favor seleccione su fecha de nacimiento</span>
+                </div>
+            </form>
+        </div>
+        <div class="button-container">
+            <button class="btn-primary" onclick="validateAndNext()">Continuar</button>
+            <button class="btn-secondary" onclick="previousPage()">Volver</button>
+        </div>
+        <div class="form-footer">
+            <img src="assets/images/Century21logo.svg" alt="Century 21">
+        </div>
+    </div>
+
+    <!-- Page 3: Agent Evaluation -->
+    <div class="page form-page" id="page3">
+        <div class="form-container">
+            <h2><span class="page-number">2/3</span>Evaluación <br> del Asesor</h2>
+            <form id="evaluationForm">
+                <div class="form-group">
+                    <label for="nombreAsesor">Nombre del Asesor *</label>
+                    <select id="nombreAsesor" name="nombreAsesor" required>
+                        <option value="">Seleccione un asesor</option>
+                        <!-- Options will be populated from API -->
+                    </select>
+                    <span class="error" id="asesorError">Por favor seleccione un asesor</span>
+                </div>
+                
+                <div class="rating-section">
+                    <label>Por favor califique del 1 al 5 los siguientes aspectos:</label>
+                    
+                    <div class="rating-item">
+                        <span class="rating-label">Efectividad y regularidad en la comunicación</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="conocimiento1" name="conocimiento" value="1">
+                            <label for="conocimiento1">1</label>
+                            <input type="radio" id="conocimiento2" name="conocimiento" value="2">
+                            <label for="conocimiento2">2</label>
+                            <input type="radio" id="conocimiento3" name="conocimiento" value="3">
+                            <label for="conocimiento3">3</label>
+                            <input type="radio" id="conocimiento4" name="conocimiento" value="4">
+                            <label for="conocimiento4">4</label>
+                            <input type="radio" id="conocimiento5" name="conocimiento" value="5">
+                            <label for="conocimiento5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Asesoría legal, fiscal y financiera</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="profesionalismo1" name="profesionalismo" value="1">
+                            <label for="profesionalismo1">1</label>
+                            <input type="radio" id="profesionalismo2" name="profesionalismo" value="2">
+                            <label for="profesionalismo2">2</label>
+                            <input type="radio" id="profesionalismo3" name="profesionalismo" value="3">
+                            <label for="profesionalismo3">3</label>
+                            <input type="radio" id="profesionalismo4" name="profesionalismo" value="4">
+                            <label for="profesionalismo4">4</label>
+                            <input type="radio" id="profesionalismo5" name="profesionalismo" value="5">
+                            <label for="profesionalismo5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Nivel de conocimiento o del negocio inmobiliario</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="comunicacion1" name="comunicacion" value="1">
+                            <label for="comunicacion1">1</label>
+                            <input type="radio" id="comunicacion2" name="comunicacion" value="2">
+                            <label for="comunicacion2">2</label>
+                            <input type="radio" id="comunicacion3" name="comunicacion" value="3">
+                            <label for="comunicacion3">3</label>
+                            <input type="radio" id="comunicacion4" name="comunicacion" value="4">
+                            <label for="comunicacion4">4</label>
+                            <input type="radio" id="comunicacion5" name="comunicacion" value="5">
+                            <label for="comunicacion5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Presentación personal e imagen</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="disponibilidad1" name="disponibilidad" value="1">
+                            <label for="disponibilidad1">1</label>
+                            <input type="radio" id="disponibilidad2" name="disponibilidad" value="2">
+                            <label for="disponibilidad2">2</label>
+                            <input type="radio" id="disponibilidad3" name="disponibilidad" value="3">
+                            <label for="disponibilidad3">3</label>
+                            <input type="radio" id="disponibilidad4" name="disponibilidad" value="4">
+                            <label for="disponibilidad4">4</label>
+                            <input type="radio" id="disponibilidad5" name="disponibilidad" value="5">
+                            <label for="disponibilidad5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Manejo de los detalles</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="asesoria1" name="asesoria" value="1">
+                            <label for="asesoria1">1</label>
+                            <input type="radio" id="asesoria2" name="asesoria" value="2">
+                            <label for="asesoria2">2</label>
+                            <input type="radio" id="asesoria3" name="asesoria" value="3">
+                            <label for="asesoria3">3</label>
+                            <input type="radio" id="asesoria4" name="asesoria" value="4">
+                            <label for="asesoria4">4</label>
+                            <input type="radio" id="asesoria5" name="asesoria" value="5">
+                            <label for="asesoria5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Puntualidad</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="negociacion1" name="negociacion" value="1">
+                            <label for="negociacion1">1</label>
+                            <input type="radio" id="negociacion2" name="negociacion" value="2">
+                            <label for="negociacion2">2</label>
+                            <input type="radio" id="negociacion3" name="negociacion" value="3">
+                            <label for="negociacion3">3</label>
+                            <input type="radio" id="negociacion4" name="negociacion" value="4">
+                            <label for="negociacion4">4</label>
+                            <input type="radio" id="negociacion5" name="negociacion" value="5">
+                            <label for="negociacion5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Nivel de compromiso en el servicio</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="honestidad1" name="honestidad" value="1">
+                            <label for="honestidad1">1</label>
+                            <input type="radio" id="honestidad2" name="honestidad" value="2">
+                            <label for="honestidad2">2</label>
+                            <input type="radio" id="honestidad3" name="honestidad" value="3">
+                            <label for="honestidad3">3</label>
+                            <input type="radio" id="honestidad4" name="honestidad" value="4">
+                            <label for="honestidad4">4</label>
+                            <input type="radio" id="honestidad5" name="honestidad" value="5">
+                            <label for="honestidad5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Solución de problemas</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="presentacion1" name="presentacion" value="1">
+                            <label for="presentacion1">1</label>
+                            <input type="radio" id="presentacion2" name="presentacion" value="2">
+                            <label for="presentacion2">2</label>
+                            <input type="radio" id="presentacion3" name="presentacion" value="3">
+                            <label for="presentacion3">3</label>
+                            <input type="radio" id="presentacion4" name="presentacion" value="4">
+                            <label for="presentacion4">4</label>
+                            <input type="radio" id="presentacion5" name="presentacion" value="5">
+                            <label for="presentacion5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Acompañamiento de inicio a fin</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="seguimiento1" name="seguimiento" value="1">
+                            <label for="seguimiento1">1</label>
+                            <input type="radio" id="seguimiento2" name="seguimiento" value="2">
+                            <label for="seguimiento2">2</label>
+                            <input type="radio" id="seguimiento3" name="seguimiento" value="3">
+                            <label for="seguimiento3">3</label>
+                            <input type="radio" id="seguimiento4" name="seguimiento" value="4">
+                            <label for="seguimiento4">4</label>
+                            <input type="radio" id="seguimiento5" name="seguimiento" value="5">
+                            <label for="seguimiento5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Manejo de situaciones imprevistas</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="puntualidad1" name="puntualidad" value="1">
+                            <label for="puntualidad1">1</label>
+                            <input type="radio" id="puntualidad2" name="puntualidad" value="2">
+                            <label for="puntualidad2">2</label>
+                            <input type="radio" id="puntualidad3" name="puntualidad" value="3">
+                            <label for="puntualidad3">3</label>
+                            <input type="radio" id="puntualidad4" name="puntualidad" value="4">
+                            <label for="puntualidad4">4</label>
+                            <input type="radio" id="puntualidad5" name="puntualidad" value="5">
+                            <label for="puntualidad5">5</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <span class="rating-label">Manejo de los tiempos de la negociación Fila</span>
+                        <div class="rating-scale"><span class="rating-scale-line"></span></div>
+                        <div class="rating-buttons">
+                            <input type="radio" id="calidad1" name="calidad" value="1">
+                            <label for="calidad1">1</label>
+                            <input type="radio" id="calidad2" name="calidad" value="2">
+                            <label for="calidad2">2</label>
+                            <input type="radio" id="calidad3" name="calidad" value="3">
+                            <label for="calidad3">3</label>
+                            <input type="radio" id="calidad4" name="calidad" value="4">
+                            <label for="calidad4">4</label>
+                            <input type="radio" id="calidad5" name="calidad" value="5">
+                            <label for="calidad5">5</label>
+                        </div>
+                    </div>
+                </div>
+                <span class="error" id="ratingsError" style="text-align: center;">Por favor califique todos los aspectos</span>
+
+                <div class="rating-section-general">
+                    <div class="rating-item">
+                        <label class="label">En general, ¿Cómo percibió el servicio prestado por el asesor inmobiliario de Century21?</label>
+                        <div class="rating-buttons-word">
+                            <input type="radio" id="servicio_asesor1" name="servicio_asesor" value="1">
+                            <label for="servicio_asesor1">Excelente</label>
+                            <input type="radio" id="servicio_asesor2" name="servicio_asesor" value="2">
+                            <label for="servicio_asesor2">Muy Bueno</label>
+                            <input type="radio" id="servicio_asesor3" name="servicio_asesor" value="3">
+                            <label for="servicio_asesor3">Bueno</label>
+                            <input type="radio" id="servicio_asesor4" name="servicio_asesor" value="4">
+                            <label for="servicio_asesor4">Regular</label>
+                            <input type="radio" id="servicio_asesor5" name="servicio_asesor" value="5">
+                            <label for="servicio_asesor5">Deficiente</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="button-container">
+            <button class="btn-primary" onclick="validateRatingsAndNext()">Continuar</button>
+            <button class="btn-secondary" onclick="previousPage()">Volver</button>
+        </div>
+        <div class="form-footer">
+            <img src="assets/images/Century21logo.svg" alt="Century 21">
+        </div>
+    </div>
+
+    <!-- Page 4: Office Quality -->
+    <div class="page form-page" id="page4">
+        <div class="form-container">
+            <h2><span class="page-number">3/3</span>Calidad de la Oficina</h2>
+            <form id="officeForm">
+                <div class="rating-section">
+                    <div class="rating-item">
+                        <label>¿Cómo califica el servicio prestado por la oficina Century21?</label>
+                        <div class="rating-buttons-word">
+                            <input type="radio" id="oficina1" name="oficina" value="1">
+                            <label for="oficina1">Excelente</label>
+                            <input type="radio" id="oficina2" name="oficina" value="2">
+                            <label for="oficina2">Muy Bueno</label>
+                            <input type="radio" id="oficina3" name="oficina" value="3">
+                            <label for="oficina3">Bueno</label>
+                            <input type="radio" id="oficina4" name="oficina" value="4">
+                            <label for="oficina4">Regular</label>
+                            <input type="radio" id="oficina5" name="oficina" value="5">
+                            <label for="oficina5">Deficiente</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>¿Recomendaría nuestros servicios a un amigo o familiar? *</label>
+                    <div class="radio-group">
+                        <input type="radio" id="recomendar_si" name="recomendar" value="si" required>
+                        <label for="recomendar_si">Sí, lo recomendaría</label>
+                        <input type="radio" id="recomendar_no" name="recomendar" value="no" required>
+                        <label for="recomendar_no">No lo recomiendo</label>
+                    </div>
+                    <span class="error" id="recomendarError">Por favor seleccione una opción</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="fuente">¿Cómo se enteró de nuestros servicios? *</label>
+                    <select id="fuente" name="fuente" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="Familiar">Familiar / amigo</option>
+                        <option value="Mercado">Mercado Libre</option>
+                        <option value="Pagina">Página Web Century 21</option>
+                        <option value="Facebook">Facebook / Marketplace</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Valla">Valla o Rótulo de ventas/Alquiler</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Oficina">Visita en Oficina</option>
+                        <option value="Contacto">Contacto directo</option>
+                        <option value="otro">Otro, especifique</option>
+                    </select>
+                    <span class="error" id="fuenteError">Por favor seleccione cómo se enteró de nosotros</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios">Comentarios adicionales, preguntas, sugerencias (opcional)</label>
+                    <textarea id="comentarios" name="comentarios" placeholder="Comparta cualquier comentario adicional sobre su experiencia..." maxlength="500"></textarea>
+                    <span id="charCounter" style="font-size: 12px; color: #666;">500 caracteres restantes</span>
+                </div>
+            </form>
+        </div>
+        <div class="button-container">
+            <button class="btn-primary" onclick="validateFinalAndSubmit()">Finalizar</button>
+            <button class="btn-secondary" onclick="previousPage()">Volver</button>
+        </div>
+        <div class="form-footer">
+            <img src="assets/images/Century21logo.svg" alt="Century 21">
+        </div>
+    </div>
+
+    <!-- Page 5: Thank You -->
+    <div class="page" id="page5">
+        <div class="content-wrapper">
+            <p class="subtitle5">ENCUESTA</p>
+            <h1>GRACIAS</h1>
+            <p class="description">Tu encuesta nos ayuda a brindar un mejor servicio a nuestros clientes</p>
+            <button class="btn-restart" onclick="resetSurvey()">VOLVER A EMPEZAR</button>
+            <p class="protected">Protegido</p>
+        </div>
+        <div class="footer">
+            <img src="assets/images/Century21logo.svg" alt="Century 21">
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+        let surveyData = {};
+
+        function showPage(pageNumber) {
+            for (let i = 1; i <= totalPages; i++) {
+                document.getElementById(`page${i}`).classList.remove('active');
+            }
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+            currentPage = pageNumber;
+            window.scrollTo(0, 0);
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        }
+
+        function validateAndNext() {
+            const email = document.getElementById('email').value;
+            const fecha = document.getElementById('fechaNacimiento').value;
+            let isValid = true;
+
+            // Reset errors
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('fechaError').style.display = 'none';
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate date
+            if (!fecha) {
+                document.getElementById('fechaError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                surveyData.email = email;
+                surveyData.fechaNacimiento = fecha;
+                nextPage();
+            }
+        }
+
+        function validateRatingsAndNext() {
+            const nombreAsesor = document.getElementById('nombreAsesor').value;
+            let isValid = true;
+
+            // Reset errors
+            document.getElementById('asesorError').style.display = 'none';
+            document.getElementById('ratingsError').style.display = 'none';
+
+            // Validate agent name
+            if (!nombreAsesor.trim()) {
+                document.getElementById('asesorError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate all ratings
+            const ratingCategories = ['conocimiento', 'profesionalismo', 'comunicacion', 'disponibilidad', 
+                                    'asesoria', 'negociacion', 'honestidad', 'presentacion', 
+                                    'seguimiento', 'puntualidad', 'calidad'];
+            
+            const ratings = {};
+            for (const category of ratingCategories) {
+                const selectedRating = document.querySelector(`input[name="${category}"]:checked`);
+                if (!selectedRating) {
+                    document.getElementById('ratingsError').style.display = 'block';
+                    isValid = false;
+                    break;
+                }
+                ratings[category] = selectedRating.value;
+            }
+            
+            // Validate servicio_asesor
+            const servicioAsesor = document.querySelector('input[name="servicio_asesor"]:checked');
+            if (!servicioAsesor) {
+                document.getElementById('ratingsError').style.display = 'block';
+                isValid = false;
+            } else {
+                ratings.servicio_asesor = servicioAsesor.value;
+            }
+
+            if (isValid) {
+                surveyData.nombreAsesor = nombreAsesor;
+                surveyData.ratings = ratings;
+                nextPage();
+            }
+        }
+
+        function validateFinalAndSubmit() {
+            let isValid = true;
+
+            // Reset errors
+            document.getElementById('recomendarError').style.display = 'none';
+            document.getElementById('fuenteError').style.display = 'none';
+
+            // Validate office rating
+            const oficinaRating = document.querySelector('input[name="oficina"]:checked');
+            
+            // Validate recommendation
+            const recomendar = document.querySelector('input[name="recomendar"]:checked');
+            if (!recomendar) {
+                document.getElementById('recomendarError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate source
+            const fuente = document.getElementById('fuente').value;
+            if (!fuente) {
+                document.getElementById('fuenteError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                surveyData.oficinaRating = oficinaRating ? oficinaRating.value : null;
+                surveyData.recomendar = recomendar.value;
+                surveyData.fuente = fuente;
+                surveyData.comentarios = document.getElementById('comentarios').value;
+                
+                // Here you would normally submit the data to a server
+                console.log('Survey Data:', surveyData);
+                
+                // Show thank you page
+                nextPage();
+            }
+        }
+
+        function resetSurvey() {
+            // Reset all form data
+            surveyData = {};
+            document.getElementById('personalForm').reset();
+            document.getElementById('evaluationForm').reset();
+            
+            document.getElementById('officeForm').reset();
+            
+            // Reset to first page
+            showPage(1);
+        }
+
+        // Function to populate agent dropdown from API
+        async function loadAgents() {
+            const selectElement = document.getElementById('nombreAsesor');
+            
+            // Example API call - replace with your actual API endpoint
+            try {
+                // const response = await fetch('/api/agents');
+                // const agents = await response.json();
+                
+                // For now, using sample data - replace with API response
+                const agents = [
+                    { id: 1, name: 'Juan Pérez' },
+                    { id: 2, name: 'María García' },
+                    { id: 3, name: 'Carlos López' }
+                ];
+                
+                // Clear existing options except the first one
+                selectElement.innerHTML = '<option value="">Seleccione un asesor</option>';
+                
+                // Add agents from API
+                agents.forEach(agent => {
+                    const option = document.createElement('option');
+                    option.value = agent.id;
+                    option.textContent = agent.name;
+                    selectElement.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading agents:', error);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage(1);
+            
+            // Load agents for dropdown
+            loadAgents();
+            
+            // Character counter for textarea
+            const textarea = document.getElementById('comentarios');
+            const charCounter = document.getElementById('charCounter');
+            
+            if (textarea && charCounter) {
+                textarea.addEventListener('input', function() {
+                    const remaining = 500 - this.value.length;
+                    charCounter.textContent = remaining + ' caracteres restantes';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
